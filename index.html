@@ -26,6 +26,34 @@
 
 <!-- partial -->
   <script  src="./script.js"></script>
+  <script>
+  document.querySelectorAll('.paper').forEach((paper) => {
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+
+    paper.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      const rect = paper.getBoundingClientRect();
+      initialX = rect.left;
+      initialY = rect.top;
+      paper.style.zIndex = ++highestZ; // Bring the dragged paper to the front
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        paper.style.transform = `translate(${initialX + dx}px, ${initialY + dy}px)`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  });
+</script>
 
 </body>
 </html>
